@@ -1,0 +1,24 @@
+CREATE TABLE News (
+    newsId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    articleId TEXT NOT NULL,
+    title TEXT NOT NULL,
+    category TEXT NOT NULL,
+    content TEXT NOT NULL,
+    country TEXT NOT NULL,
+    creator TEXT NOT NULL,
+    description TEXT NOT NULL,
+    image_url TEXT NOT NULL,
+    pubDate TEXT NOT NULL,
+    link TEXT NOT NULL
+);
+
+insertNews:
+INSERT INTO News (
+    articleId, title, category, content, country, creator, description, image_url, pubDate, link
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+deleteAllNews:
+DELETE FROM News;
+
+getAllNews:
+SELECT * FROM News;
