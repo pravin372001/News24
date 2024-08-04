@@ -57,4 +57,23 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
             }
         }
     }
+
+    internal fun insertNews(news: List<News>) {
+        dbQuery.transaction {
+            news.forEach{ news ->
+                dbQuery.insertNews(
+                    articleId = news.articleId ?: "",
+                    title = news.title ?: "",
+                    category = news.category.toString(),
+                    content = news.content ?: "",
+                    country = news.country.toString(),
+                    creator = news.creator.toString(),
+                    description = news.description ?: "",
+                    image_url = news.image_url ?: "",
+                    pubDate = news.pubDate ?: "",
+                    link = news.link ?: ""
+                )
+            }
+        }
+    }
 }

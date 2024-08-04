@@ -5,9 +5,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -17,25 +20,30 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.pravin.news24.R
+import com.pravin.news24.Screens
 import com.pravin.news24.cache.News
 import com.pravin.news24.theme.AppTheme
+import com.pravin.news24.R.string as AppText
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewsListScreen(
     newsList: List<News>,
-    onNewsClick: (News) -> Unit
+    onNewsClick: (News) -> Unit,
+    lazyListState: LazyListState,
+    onNavigateClick: (String) -> Unit
 ) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("ZNews English") },
+                title = { Text(stringResource(AppText.app_name)) },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     titleContentColor = MaterialTheme.colorScheme.onPrimary,
@@ -43,10 +51,26 @@ fun NewsListScreen(
                 )
             )
         },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
+                    onNavigateClick(Screens.AddNews.route)
+                }
+            ) {
+                Row {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = null
+                    )
+                    Text(stringResource(AppText.add))
+                }
+            }
+        },
         content = { innerPadding ->
             LazyColumn(
                 contentPadding = innerPadding,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
+                state = lazyListState
             ) {
                 items(newsList) { news ->
                     NewsItem(
@@ -148,3 +172,16 @@ private fun NewsItemPreview() {
     }
 }
 
+
+@Preview
+@Composable
+private fun NewsListPreview() {
+    AppTheme {
+        NewsListScreen(
+            newsList = listOf(),
+            onNewsClick = {},
+            lazyListState = rememberLazyListState(),
+            onNavigateClick = {}
+        )
+    }
+}

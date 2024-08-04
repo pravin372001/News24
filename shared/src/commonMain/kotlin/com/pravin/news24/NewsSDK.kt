@@ -12,12 +12,12 @@ class NewsSDK(databaseDriverFactory: DatabaseDriverFactory, private val api: New
     @Throws(Exception::class)
     suspend fun getNews(apikey: String, language: String = "en", country: String = "in"): List<News> {
         val cachedNews = database.getAllNews()
-        return cachedNews.ifEmpty {
-            formatNews(api.getNews(apikey, language, country)).also {
-                database.clearAndCreateNews(it)
-            }
+        val news = api.getNews(apikey, language, country)
+        cachedNews.uniqueNews(formatNews(news)).also {
+            database.insertNews(it)
         }
-    }
+        return database.getAllNews()
+    }   
 
     private fun formatNews(news: NewsOne): List<News> {
         val formattedNews = mutableListOf<News>()
@@ -40,4 +40,15 @@ class NewsSDK(databaseDriverFactory: DatabaseDriverFactory, private val api: New
         }
         return formattedNews
     }
+}
+
+fun List<News>.uniqueNews(news:List<News>): List<News> {
+    val uniqueNews = mutableListOf<News>()
+    val newsIds = this.map { it.articleId }
+    news.forEach {
+        if (!newsIds.contains(it.articleId)) {
+            uniqueNews.add(it)
+        }
+    }
+    return uniqueNews
 }

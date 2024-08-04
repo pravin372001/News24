@@ -27,6 +27,8 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel.compose)
             implementation("io.coil-kt:coil:2.0.0")
             implementation("io.coil-kt:coil-compose:2.0.0")
+            val nav_version = "2.7.7"
+            implementation("androidx.navigation:navigation-compose:$nav_version")
         }
         commonMain.dependencies {
             implementation(compose.runtime)

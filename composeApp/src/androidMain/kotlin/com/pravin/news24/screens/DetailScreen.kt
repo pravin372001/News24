@@ -2,6 +2,7 @@ package com.pravin.news24.screens
 
 import android.content.Intent
 import android.net.Uri
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -18,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,6 +27,7 @@ import androidx.core.content.ContextCompat.startActivity
 import coil.compose.rememberAsyncImagePainter
 import com.pravin.news24.R
 import com.pravin.news24.cache.News
+import com.pravin.news24.R.string as AppText
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,10 +36,13 @@ fun NewsDetailScreen(
     onBackClick: () -> Unit
 ) {
     val context = LocalContext.current
+    BackHandler {
+        onBackClick()
+    }
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("ZNews English") },
+                title = { Text(stringResource(AppText.app_name)) },
                 navigationIcon = {
                     IconButton(onClick = { onBackClick() }) {
                         Icon(
@@ -141,7 +147,7 @@ fun NewsDetailScreen(
                             containerColor = MaterialTheme.colorScheme.primary
                         )
                     ) {
-                        Text("Read More")
+                        Text(stringResource(AppText.read_more))
                     }
                 }
             }
