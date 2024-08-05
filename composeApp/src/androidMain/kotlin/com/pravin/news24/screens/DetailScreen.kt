@@ -2,6 +2,7 @@ package com.pravin.news24.screens
 
 import android.content.Intent
 import android.net.Uri
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -83,7 +84,7 @@ fun NewsDetailScreen(
                     Spacer(modifier = Modifier.height(8.dp))
 
                     androidx.compose.material3.AssistChip(
-                        onClick = { /*TODO*/ },
+                        onClick = { },
                         colors = AssistChipDefaults.assistChipColors(
                             containerColor = MaterialTheme.colorScheme.primary,
                             labelColor = MaterialTheme.colorScheme.onPrimary
@@ -140,8 +141,13 @@ fun NewsDetailScreen(
 
                     Button(
                         onClick = {
-                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(newsItem.link))
-                            startActivity(context, intent, null)
+                            if (newsItem.link.isNotEmpty())
+                            {
+                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(newsItem.link))
+                                startActivity(context, intent, null)
+                            } else {
+                                Toast.makeText(context, AppText.no_link, Toast.LENGTH_SHORT).show()
+                            }
                         },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = MaterialTheme.colorScheme.primary

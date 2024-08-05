@@ -54,7 +54,11 @@ fun App() {
                         )
                 }
                 composable(Screens.AddNews.route) {
-                    AddNewsScreen(onNavigateClick = { navController.navigate(it) })
+                    AddNewsScreen(onNavigateClick = {
+                        navController.navigate(it)
+                        viewModel.loadNews()
+                    },
+                        addCustomNews = { viewModel.addCustomNews(it) })
                 }
             }
         }

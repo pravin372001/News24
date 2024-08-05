@@ -16,8 +16,12 @@ class NewsSDK(databaseDriverFactory: DatabaseDriverFactory, private val api: New
         cachedNews.uniqueNews(formatNews(news)).also {
             database.insertNews(it)
         }
-        return database.getAllNews()
-    }   
+        return database.getAllNews().reversed()
+    }
+
+    suspend fun addCustomNews(news: News) {
+        database.insertNews(listOf(news))
+    }
 
     private fun formatNews(news: NewsOne): List<News> {
         val formattedNews = mutableListOf<News>()

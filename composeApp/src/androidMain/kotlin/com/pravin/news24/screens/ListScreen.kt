@@ -1,5 +1,6 @@
 package com.pravin.news24.screens
 
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -8,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -55,14 +57,30 @@ fun NewsListScreen(
             FloatingActionButton(
                 onClick = {
                     onNavigateClick(Screens.AddNews.route)
-                }
+                },
+                containerColor = MaterialTheme.colorScheme.primary,
+                shape = CircleShape,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .size(56.dp),
+                elevation = FloatingActionButtonDefaults.elevation(8.dp)
             ) {
-                Row {
+                Row(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     Icon(
                         imageVector = Icons.Default.Add,
-                        contentDescription = null
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onPrimary
                     )
-                    Text(stringResource(AppText.add))
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(
+                        text = stringResource(R.string.add),
+                        color = MaterialTheme.colorScheme.onPrimary,
+                        fontSize = 16.sp
+                    )
                 }
             }
         },
@@ -105,8 +123,14 @@ fun NewsItem(
             modifier = Modifier.padding(8.dp)
         ) {
             Image(
-                painter = if (newsItem.image_url.isNotEmpty()) {
-                    rememberAsyncImagePainter(newsItem.image_url)
+                painter =
+                if (newsItem.image_url.isNotEmpty()) {
+                    if(newsItem.image_url.contains("content://")) {
+                        val imageUri =Uri.parse(newsItem.image_url)
+                        rememberAsyncImagePainter(imageUri)
+                    } else {
+                        rememberAsyncImagePainter(newsItem.image_url)
+                    }
                 } else {
                     painterResource(R.drawable.news24)
                 },

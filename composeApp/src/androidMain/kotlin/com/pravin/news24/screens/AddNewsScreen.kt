@@ -3,12 +3,14 @@ package com.pravin.news24.screens
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -23,23 +25,32 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.toSize
 import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import com.pravin.news24.R
 import com.pravin.news24.Screens
+import com.pravin.news24.cache.News
 import com.pravin.news24.theme.AppTheme
+import java.util.Date
 import com.pravin.news24.R.string as AppText
+import com.pravin.news24.R.array as AppArray
 
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddNewsScreen(
-    onNavigateClick:(String) -> Unit
+    onNavigateClick:(String) -> Unit,
+    addCustomNews: (News) -> Unit
 ) {
     val title = remember { mutableStateOf("") }
     val category = remember { mutableStateOf("") }
@@ -47,7 +58,6 @@ fun AddNewsScreen(
     val description = remember { mutableStateOf("") }
     var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
     var isExpanded by remember { mutableStateOf(false) }
-
     val context = LocalContext.current
 
     val pickImageLauncher = rememberLauncherForActivityResult(
@@ -116,13 +126,32 @@ fun AddNewsScreen(
                         value = category.value,
                         onValueChange = { category.value = it },
                         label = { Text("Category") },
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .menuAnchor()
+                            .fillMaxWidth()
+                        ,
                         readOnly = true,
                         trailingIcon = {
-                            ExposedDropdownMenuDefaults.TrailingIcon(expanded = false)
-                        }
-
+                            ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded)
+                        },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
                     )
+                    ExposedDropdownMenu(
+                        expanded = isExpanded,
+                        onDismissRequest = { isExpanded = false }
+                    ) {
+                        val categories = stringArrayResource(AppArray.categories)
+                        categories.forEach { item ->
+                            DropdownMenuItem(
+                                modifier = Modifier.fillMaxWidth(),
+                                text = { Text(item) },
+                                onClick = {
+                                    category.value = item
+                                    isExpanded = false
+                                }
+                            )
+                        }
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -180,18 +209,43 @@ fun AddNewsScreen(
                     }
                 }
 
-
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Button(
-                    onClick = { onNavigateClick(Screens.Home.route) },
+                    onClick =
+                    {
+                        if(validateFields(title.value, content.value, description.value, category.value, selectedImageUri)) {
+                            addCustomNews(
+                                News(
+                                    newsId = 0,
+                                    articleId = "",
+                                    title = title.value,
+                                    category = category.value,
+                                    content = content.value,
+                                    country = "India",
+                                    creator = "Batman",
+                                    description = description.value,
+                                    image_url = selectedImageUri.toString(),
+                                    pubDate = "",
+                                    link = ""
+                                )
+                            )
+                            onNavigateClick(Screens.Home.route)
+                        } else {
+                            Toast.makeText(context, AppText.fill_all_fields, Toast.LENGTH_SHORT).show()
+                        }
+                    },
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
                 ) {
-                    Text("Add News", color = MaterialTheme.colorScheme.onPrimary)
+                    Text(stringResource(AppText.add), color = MaterialTheme.colorScheme.onPrimary)
                 }
             }
         }
     )
+}
+
+fun validateFields(title: String, content: String, description: String, category: String, selectedImageUri: Uri?): Boolean {
+    return title.isNotEmpty() && content.isNotEmpty() && description.isNotEmpty() && category.isNotEmpty() && selectedImageUri != null
 }
 
 @Preview
@@ -199,7 +253,8 @@ fun AddNewsScreen(
 private fun AddScreenPreview() {
     AppTheme {
         AddNewsScreen(
-            onNavigateClick = {}
+            onNavigateClick = {},
+            addCustomNews = {}
         )
     }
 }

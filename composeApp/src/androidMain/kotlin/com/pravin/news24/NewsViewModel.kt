@@ -43,6 +43,12 @@ class NewsViewModel(private val newsSDK: NewsSDK) : ViewModel() {
         }
     }
 
+    fun addCustomNews(news: News) {
+        viewModelScope.launch {
+            newsSDK.addCustomNews(news)
+        }
+    }
+
     data class NewsState(
         val news: List<News> = emptyList(),
         val isLoading: Boolean = false,
