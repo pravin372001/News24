@@ -1,34 +1,35 @@
 <resources>
-    <string name="api">en</string>
-    <string name="app_name">News24</string>
-    <string name="add">Add</string>
-    <string name="back">Back</string>
-    <string name="add_news">Add News</string>
-    <string name="read_more">Read More</string>
-    <string name="head_title">Top HeadLines</string>
-    <string name="retry">Retry</string>
-    <string name="title">Title</string>
-    <string name="content">Content</string>
-    <string name="description">Description</string>
-    <string name="fill_all_fields">Please fill all fields</string>
-    <string name="no_link">Link Not available</string>
+    <string name="api">ta</string>
+    <string name="app_name">நியூஸ்24</string>
+    <string name="add">சேர்க்க</string>
+    <string name="back">மீண்டும்</string>
+    <string name="add_news">செய்தி சேர்க்க</string>
+    <string name="read_more">மேலும் படிக்க</string>
+    <string name="head_title">முக்கிய தலைப்புகள்</string>
+    <string name="retry">மீண்டும் முயற்சி</string>
+    <string name="title">தலைப்பு</string>
+    <string name="content">உள்ளடக்கம்</string>
+    <string name="description">விளக்கம்</string>
+    <string name="fill_all_fields">தயவுசெய்து அனைத்து புலங்களையும் நிரப்பவும்</string>
+    <string name="no_link">இணைப்பு கிடைக்கவில்லை</string>
+    <string name="category">பகுதி</string>
     <string-array name="categories">
-        <item>Business</item>
-        <item>Crime</item>
-        <item>Domestic</item>
-        <item>Education</item>
-        <item>Entertainment</item>
-        <item>Environment</item>
-        <item>Food</item>
-        <item>Health</item>
-        <item>Lifestyle</item>
-        <item>Other</item>
-        <item>Politics</item>
-        <item>Science</item>
-        <item>Sports</item>
-        <item>Technology</item>
-        <item>Top</item>
-        <item>Tourism</item>
-        <item>World</item>
+        <item>வணிகம்</item>
+        <item>குற்றம்</item>
+        <item>உள்நாட்டு</item>
+        <item>கல்வி</item>
+        <item>பொழுதுபோக்கு</item>
+        <item>சுற்றுச்சூழல்</item>
+        <item>உணவு</item>
+        <item>ஆரோக்கியம்</item>
+        <item>வாழ்க்கை முறை</item>
+        <item>மற்றவை</item>
+        <item>அரசியல்</item>
+        <item>அறிவு</item>
+        <item>விளையாட்டு</item>
+        <item>தொழில்நுட்பம்</item>
+        <item>முக்கியம்</item>
+        <item>சுற்றுலா</item>
+        <item>உலகம்</item>
     </string-array>
 </resources>

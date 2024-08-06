@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -20,6 +21,7 @@ import com.pravin.news24.screens.MainScreen
 import com.pravin.news24.theme.AppTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.androidx.compose.koinViewModel
+import com.pravin.news24.R.string as AppText
 
 @Composable
 @Preview
@@ -32,7 +34,8 @@ fun App() {
         } else if(state.errorMessage != null) {
             Box(modifier = Modifier.fillMaxSize()){
                 Column(
-                    modifier = Modifier.align(Alignment.Center)
+                    modifier = Modifier.align(Alignment.Center),
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Text(text = state.errorMessage.toString())
                     Button(

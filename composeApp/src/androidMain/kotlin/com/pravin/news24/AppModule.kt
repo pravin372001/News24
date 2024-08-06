@@ -14,7 +14,10 @@ val appModule = module {
     single<NewsSDK> {
         NewsSDK(databaseDriverFactory = AndroidDatabaseDriverFactory(androidContext()), api =  get())
     }
+    single<ResourceProvider> {
+        ResourceProvider(androidContext())
+    }
     viewModel {
-        NewsViewModel(newsSDK = get())
+        NewsViewModel(newsSDK = get(), resourceProvider = get())
     }
 }

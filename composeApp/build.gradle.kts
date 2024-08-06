@@ -57,6 +57,19 @@ android {
         versionCode = 1
         versionName = "1.0"
     }
+
+    flavorDimensions.add("language")
+    productFlavors {
+        create("english") {
+            dimension = "language"
+            applicationIdSuffix = ".english"
+        }
+        create("tamil") {
+            dimension = "language"
+            applicationIdSuffix = ".tamil"
+        }
+    }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"

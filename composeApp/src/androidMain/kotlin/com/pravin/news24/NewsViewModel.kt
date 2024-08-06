@@ -9,14 +9,20 @@ import com.pravin.news24.cache.News
 import com.pravin.news24.entity.NewsOne
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.getString
 
-class NewsViewModel(private val newsSDK: NewsSDK) : ViewModel() {
+class NewsViewModel(
+    private val newsSDK: NewsSDK,
+    private val resourceProvider: ResourceProvider
+    ) : ViewModel() {
 
     private val _state = mutableStateOf(NewsState())
     val state: State<NewsState> = _state
 
     private val _currentNews = mutableStateOf<News?>(null)
     val currentNews: State<News?> = _currentNews
+
+    private val language = resourceProvider.getString(R.string.api)
 
     init {
         loadNews()
@@ -34,7 +40,7 @@ class NewsViewModel(private val newsSDK: NewsSDK) : ViewModel() {
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true)
             try {
-                val news = newsSDK.getNews(API_KEY)
+                val news = newsSDK.getNews(API_KEY, language = language)
                 _state.value = _state.value.copy(news = news, isLoading = false)
             } catch (e: Exception) {
                 _state.value = _state.value.copy(errorMessage = e.message, isLoading = false)

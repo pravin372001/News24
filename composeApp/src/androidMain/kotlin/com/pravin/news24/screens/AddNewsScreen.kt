@@ -76,7 +76,7 @@ fun AddNewsScreen(
         topBar = {
             TopAppBar(
                 title = { Text(
-                    stringResource(AppText.add),
+                    stringResource(AppText.add_news),
                     color = MaterialTheme.colorScheme.onPrimary) },
                 navigationIcon = {
                     IconButton(onClick = { onNavigateClick(Screens.Home.route) }) {
@@ -104,7 +104,7 @@ fun AddNewsScreen(
                 OutlinedTextField(
                     value = title.value,
                     onValueChange = { title.value = it },
-                    label = { Text("Title") },
+                    label = { Text(stringResource(AppText.title)) },
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         cursorColor = MaterialTheme.colorScheme.primary,
                         focusedBorderColor = MaterialTheme.colorScheme.primary,
@@ -125,7 +125,7 @@ fun AddNewsScreen(
                     OutlinedTextField(
                         value = category.value,
                         onValueChange = { category.value = it },
-                        label = { Text("Category") },
+                        label = { Text(stringResource(AppText.category)) },
                         modifier = Modifier
                             .menuAnchor()
                             .fillMaxWidth()
@@ -159,7 +159,7 @@ fun AddNewsScreen(
                 OutlinedTextField(
                     value = content.value,
                     onValueChange = { content.value = it },
-                    label = { Text("Content") },
+                    label = { Text(stringResource(AppText.content)) },
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         cursorColor = MaterialTheme.colorScheme.primary,
                         focusedBorderColor = MaterialTheme.colorScheme.primary,
@@ -173,7 +173,7 @@ fun AddNewsScreen(
                 OutlinedTextField(
                     value = description.value,
                     onValueChange = { description.value = it },
-                    label = { Text("Description") },
+                    label = { Text(stringResource(AppText.description)) },
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         cursorColor = MaterialTheme.colorScheme.primary,
                         focusedBorderColor = MaterialTheme.colorScheme.primary,
